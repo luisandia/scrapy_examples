@@ -15,10 +15,10 @@ def product_info(response, value):
 class BooksScrapySpider(scrapy.Spider):
     name = 'books_scrapy'
     allowed_domains = ['books.toscrape.com']
-    # start_urls = ['http://books.toscrape.com/']
+    start_urls = ['http://books.toscrape.com/']
 
-    def __init__(self, category):
-        self.start_urls = [category]
+    # def __init__(self, category):
+    #     self.start_urls = [category]
 
     def parse(self, response):
         books = response.xpath('//h3/a/@href').extract()
@@ -60,19 +60,19 @@ class BooksScrapySpider(scrapy.Spider):
         l.add_value('price', price)
         l.add_value('image_urls', image_url)
         yield l.load_item()
-        # yield {'title': title,
-        #        'price': price,
-        #        'rating': rating,
-        #        'image_url': image_url,
-        #        'description': description,
-        #        'upc': upc,
-        #        'product_type': product_type,
-        #        'price_without_tax': price_without_tax,
-        #        'price_with_tax': price_with_tax,
-        #        'tax': tax,
-        #        'availability': availability,
-        #        'number_of_reviews': number_of_reviews,
-        #        'url': url}
+        yield {'title': title,
+               'price': price,
+               'rating': rating,
+               'image_url': image_url,
+               'description': description,
+               'upc': upc,
+               'product_type': product_type,
+               'price_without_tax': price_without_tax,
+               'price_with_tax': price_with_tax,
+               'tax': tax,
+               'availability': availability,
+               'number_of_reviews': number_of_reviews,
+               'url': url}
 
     def close(self, reason):
         csv_file = max(glob.iglob('*.csv'), key=os.path.getctime)
